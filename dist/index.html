@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#101726" />
+    <meta name="description" content="Digital Flow Studio — websites, content, growth and AI systems for ambitious businesses." />
+    <title>Digital Flow Studio — Websites, Content, Growth & AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="grain"></div>
+    <header class="topbar wrap">
+      <a class="brand" href="#top" aria-label="Digital Flow Studio home"><span class="brand-mark">D<span>F</span></span><span>Digital Flow <em>Studio</em></span></a>
+      <nav aria-label="Main navigation">
+        <a href="#services">Services</a><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a>
+      </nav>
+      <button class="studio-trigger" type="button" data-open-studio>Open Studio <span>↗</span></button>
+    </header>
+
+    <main id="top">
+      <section class="hero wrap">
+        <div class="eyebrow"><span></span><span data-bind="availability">Independent digital partner · India & beyond</span></div>
+        <div class="hero-grid">
+          <div>
+            <p class="kicker">DIGITAL FLOW STUDIO / 01</p>
+            <h1 data-bind="headline">Digital systems<br /><i>that move</i> business forward.</h1>
+          </div>
+          <div class="hero-side">
+            <p data-bind="subheadline">Websites, content, growth campaigns and AI workflows — built together, so every part of your business works in flow.</p>
+            <a class="button button-light" href="#contact">Start a project <span>→</span></a>
+          </div>
+        </div>
+        <div class="hero-orbit" aria-hidden="true"><span>WEB · VIDEO · ADS · AI · WEB · VIDEO · ADS · AI · </span><b>✦</b></div>
+        <div class="hero-stats">
+          <div><strong>01</strong><span>Studio partner</span></div><div><strong>04</strong><span>Connected disciplines</span></div><div><strong>∞</strong><span>Ways to make work flow</span></div>
+        </div>
+      </section>
+
+      <section class="marquee" aria-label="What we do"><div>WEB EXPERIENCES <b>✦</b> CONTENT WITH MOMENTUM <b>✦</b> LEADS THAT CONVERT <b>✦</b> AUTOMATION WITH PURPOSE <b>✦</b></div></section>
+
+      <section id="services" class="wrap section services">
+        <div class="section-intro"><p class="kicker">WHAT WE BUILD / 02</p><h2>One studio.<br /><i>More momentum.</i></h2><p>Choose a single service or connect the whole system. Every engagement is shaped around a practical outcome.</p></div>
+        <div class="service-grid" id="service-grid"></div>
+      </section>
+
+      <section id="work" class="work section">
+        <div class="wrap section-head"><p class="kicker">SELECTED WORK / 03</p><div><h2>Made to be<br /><i>put to work.</i></h2><p>Real business contexts, clear audience needs, and digital experiences built to do more than just look good.</p></div></div>
+        <div class="project-list wrap" id="project-list"></div>
+      </section>
+
+      <section id="about" class="wrap section capability">
+        <div class="capability-copy"><p class="kicker">THE ADVANTAGE / 04</p><h2>Not just a<br /><i>service list.</i></h2><p>Digital Flow Studio brings the creative and technical pieces into one conversation — strategy, visual storytelling, digital build, delivery and optimisation.</p><a href="#contact" class="text-link">Build something useful <span>→</span></a></div>
+        <div class="skill-cloud" id="skill-cloud"></div>
+      </section>
+
+      <section class="lab wrap"><div class="lab-index"><span>05</span><span>THE LAB</span></div><div class="lab-copy"><p class="kicker">EXPERIMENTING WITH INTENT</p><h2>AI shouldn’t feel like a trick.<br />It should <i>save time.</i></h2><p>Our Lab explores research assistants, reporting workflows, content systems and future WhatsApp AI agents for businesses ready to simplify repetitive work.</p></div><div class="lab-badge"><span>OPEN</span><strong>LAB</strong><small>NEW IDEAS<br />IN MOTION</small></div></section>
+
+      <section class="experience"><div class="wrap experience-grid"><div><p class="kicker">BUILT FROM EXPERIENCE / 06</p><h2>Industry context<br />makes the work <i>stronger.</i></h2></div><div class="experience-list"><article><span>01</span><div><h3>Travel, tourism & hospitality</h3><p>Seven years running Adventure Buddha — with firsthand experience in trips, enquiries, booking journeys and travel content.</p></div></article><article><span>02</span><div><h3>Photography & events</h3><p>Web and content thinking for visual businesses, event storytelling and creative portfolios.</p></div></article><article><span>03</span><div><h3>Regional-language content</h3><p>Devotional and regional-language creative work that respects audience, culture and format.</p></div></article></div></div></section>
+
+      <section id="contact" class="wrap contact"><p class="kicker">LET’S MAKE IT FLOW / 07</p><h2>Have a good idea?<br /><i>Let’s give it momentum.</i></h2><div class="contact-bottom"><p>Tell us what you are trying to grow, launch, simplify or explain. We’ll help find the clearest next move.</p><div><a class="button button-accent" data-bind-href="email" data-bind="email">hello@digitalflow.studio <span>↗</span></a><p class="socials"><a href="#">Instagram</a><a href="#">YouTube</a><a href="#">LinkedIn</a></p></div></div></section>
+    </main>
+
+    <footer class="wrap footer"><span>© <span id="year"></span> Digital Flow Studio</span><span>Websites · Content · Growth · AI</span><button type="button" data-open-studio>Studio dashboard ↗</button></footer>
+
+    <dialog id="studio-dialog">
+      <div class="dashboard">
+        <aside><div class="dash-brand"><span class="brand-mark">D<span>F</span></span><span>Digital Flow<br /><em>Studio</em></span></div><p>CONTENT STUDIO</p><button class="dash-tab active" data-panel="overview">Overview</button><button class="dash-tab" data-panel="brand">Brand & hero</button><button class="dash-tab" data-panel="services">Services</button><button class="dash-tab" data-panel="projects">Projects</button><button class="dash-tab" data-panel="skills">Skills</button><button class="dash-tab" data-panel="contact">Contact</button><div class="dash-bottom"><button id="reset-content">Reset demo content</button><small>Changes are saved in this browser.<br />Cloudflare D1 sync is the next integration.</small></div></aside>
+        <section class="dash-main"><div class="dash-top"><div><p class="kicker">PRIVATE EDITOR</p><h2 id="panel-title">Your studio at a glance</h2></div><button class="close-dashboard" type="button" data-close-studio>Close ×</button></div><div id="dashboard-content"></div></section>
+      </div>
+    </dialog>
+    <script src="app.js"></script>
+  </body>
+</html>
+
