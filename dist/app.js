@@ -43,9 +43,20 @@ function renderDashboard(panel){
   if(panel==='projects'){ holder.innerHTML=`<div class="editor-form">${data.projects.map((p,i)=>`<section class="project-editor"><h3>Project ${p[0]}</h3>${input('Project name',`project-${i}-title`,p[1])}${input('Project description',`project-${i}-copy`,p[2],'textarea')}${input('Tags (comma separated)',`project-${i}-tags`,p[3].join(', '))}</section>`).join('')}</div>`; holder.querySelectorAll('[data-key]').forEach(f=>f.addEventListener('input',e=>{const [,i,field]=e.target.dataset.key.split('-'); data.projects[+i][field==='title'?1:field==='copy'?2:3]=field==='tags'?e.target.value.split(',').map(x=>x.trim()).filter(Boolean):e.target.value;save();})); }
   if(panel==='skills'){ holder.innerHTML=`<div class="skills-editor">${data.skills.map((skill,i)=>`<button class="active" data-remove="${i}" title="Remove skill">${escape(skill)} ×</button>`).join('')}</div><div class="editor-form" style="margin-top:24px"><div class="field"><label>Add a skill</label><input id="new-skill" placeholder="e.g. Email marketing" /></div><button class="button button-light" id="add-skill" type="button">Add skill <span>+</span></button></div>`; holder.querySelectorAll('[data-remove]').forEach(b=>b.addEventListener('click',()=>{data.skills.splice(+b.dataset.remove,1);save()})); $('#add-skill',holder).addEventListener('click',()=>{let v=$('#new-skill',holder).value.trim();if(v&&!data.skills.includes(v)){data.skills.push(v);save()}}); }
 }
-document.querySelectorAll('[data-open-studio]').forEach(btn=>btn.addEventListener('click',()=>{ $('#studio-dialog').showModal(); renderDashboard(activePanel); }));
-document.querySelectorAll('[data-close-studio]').forEach(btn=>btn.addEventListener('click',()=>$('#studio-dialog').close()));
+function openStudio(){
+  $('#studio-dialog').showModal();
+  renderDashboard(activePanel);
+  if(location.hash !== '#dashboard') history.replaceState(null, '', '#dashboard');
+}
+function closeStudio(){
+  $('#studio-dialog').close();
+  if(location.hash === '#dashboard') history.replaceState(null, '', location.pathname);
+}
+document.querySelectorAll('[data-open-studio]').forEach(btn=>btn.addEventListener('click',openStudio));
+document.querySelectorAll('[data-close-studio]').forEach(btn=>btn.addEventListener('click',closeStudio));
 document.querySelectorAll('.dash-tab').forEach(tab=>tab.addEventListener('click',()=>renderDashboard(tab.dataset.panel)));
 $('#reset-content').addEventListener('click',()=>{ data=structuredClone(defaults); save(); });
 render();
+if(location.hash === '#dashboard') openStudio();
+window.addEventListener('hashchange',()=>{ if(location.hash === '#dashboard' && !$('#studio-dialog').open) openStudio(); });
 
