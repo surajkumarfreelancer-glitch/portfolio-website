@@ -16,11 +16,18 @@ const defaults = {
   ],
   skills: ['Business websites','Admin dashboards','Booking systems','Meta ads','Video editing','AI voice-over','AI images','YouTube SEO','Content strategy','Cloudflare setup','WhatsApp funnels','Research automation']
 };
-const storageKey = 'digital-flow-studio-content-v1';
-let data = JSON.parse(localStorage.getItem(storageKey) || 'null') || structuredClone(defaults);
+const isAdmin = location.pathname.replace(/\/$/, '') === '/admin';
+let data = structuredClone(defaults);
+let authenticated = false;
+let saveTimer;
 const $ = (selector, root=document) => root.querySelector(selector);
 const escape = (value='') => String(value).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-function save(){ localStorage.setItem(storageKey, JSON.stringify(data)); render(); }
+function save(){
+  render();
+  if (!authenticated) return;
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => fetch('/api/content', { method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ data }) }), 600);
+}
 function bindText(){ document.querySelectorAll('[data-bind]').forEach(el=>{ const key=el.dataset.bind; if(key in data) el.innerHTML=data[key]; }); document.querySelectorAll('[data-bind-href]').forEach(el=>el.href=`mailto:${data[el.dataset.bindHref]}`); }
 function render(){
   bindText();
@@ -46,17 +53,38 @@ function renderDashboard(panel){
 function openStudio(){
   $('#studio-dialog').showModal();
   renderDashboard(activePanel);
-  if(location.hash !== '#dashboard') history.replaceState(null, '', '#dashboard');
 }
 function closeStudio(){
   $('#studio-dialog').close();
-  if(location.hash === '#dashboard') history.replaceState(null, '', location.pathname);
 }
 document.querySelectorAll('[data-open-studio]').forEach(btn=>btn.addEventListener('click',openStudio));
 document.querySelectorAll('[data-close-studio]').forEach(btn=>btn.addEventListener('click',closeStudio));
 document.querySelectorAll('.dash-tab').forEach(tab=>tab.addEventListener('click',()=>renderDashboard(tab.dataset.panel)));
 $('#reset-content').addEventListener('click',()=>{ data=structuredClone(defaults); save(); });
-render();
-if(location.hash === '#dashboard') openStudio();
-window.addEventListener('hashchange',()=>{ if(location.hash === '#dashboard' && !$('#studio-dialog').open) openStudio(); });
+async function showLogin(message='') {
+  const dialog = $('#studio-dialog');
+  const dashboard = $('.dashboard');
+  dashboard.style.cssText = 'grid-template-columns:1fr;max-width:600px;height:auto;min-height:480px;margin-top:10vh';
+  dashboard.querySelector('aside').style.display = 'none';
+  dialog.showModal();
+  $('#panel-title').textContent = 'Private studio';
+  $('#dashboard-content').innerHTML = `<div style="max-width:390px"><h3 style="font-size:26px;margin:0 0 12px">Welcome back.</h3><p style="font-size:13px;line-height:1.6;color:#657185">Sign in to edit Digital Flow Studio. Changes save only to your protected D1 database.</p><form id="login-form" class="editor-form"><div class="field"><label>Admin password</label><input id="admin-password" type="password" autocomplete="current-password" required /></div><p style="color:#a42e20;font-size:12px;min-height:16px">${message}</p><button class="button button-light" type="submit">Sign in <span>↗</span></button></form></div>`;
+  $('#login-form').addEventListener('submit', async event => {
+    event.preventDefault();
+    const response = await fetch('/api/admin/login', { method:'POST', headers:{'content-type':'application/json'}, body:JSON.stringify({ password: $('#admin-password').value }) });
+    if (!response.ok) return showLogin('Incorrect password. Please try again.');
+    authenticated = true;
+    dashboard.style.cssText = '';
+    dashboard.querySelector('aside').style.display = '';
+    renderDashboard('overview');
+  });
+}
+async function boot() {
+  render();
+  try { const result = await fetch('/api/content'); const payload = await result.json(); if (payload.data) { data = { ...structuredClone(defaults), ...payload.data }; render(); } } catch {}
+  if (!isAdmin) return;
+  try { const result = await fetch('/api/admin/me'); authenticated = (await result.json()).authenticated; } catch {}
+  if (authenticated) { $('#studio-dialog').showModal(); renderDashboard('overview'); } else showLogin();
+}
+boot();
 
